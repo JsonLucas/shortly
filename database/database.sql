@@ -1,27 +1,27 @@
-create database shortly;
-create table "users"(
-    "id" serial primary key,
-    "name" text not null,
-    "email" text unique not null,
-    "password" text not null
+CREATE DATABASE "shortly";
+CREATE TABLE "users"(
+    "id" SERIAL PRIMARY KEY,
+    "name" TEXT NOT NULL,
+    "email" TEXT UNIQUE NOT NULL,
+    "password" TEXT NOT NULL
 );
 
-create table "sessions"(
-    "id" serial primary key,
-    "userId" integer not null references "users"("id"),
-    "authorization" text not null
+CREATE TABLE "sessions"(
+    "id" SERIAL PRIMARY KEY,
+    "userId" INTEGER NOT NULL REFERENCES "users"("id"),
+    "authorization" TEXT NOT NULL
 );
 
-create table "urls"(
-    "id" serial primary key,
-    "userId" integer not null references "users"("id"),
-    "fullUrl" text not null,
-    "shortUrl" text
+CREATE TABLE "urls"(
+    "id" SERIAL PRIMARY KEY,
+    "userId" INTEGER NOT NULL REFERENCES "users"("id"),
+    "fullUrl" TEXT NOT NULL,
+    "shortUrl" TEXT
 );
 
-create table "ranking"(
-    "id" serial primary key,
-    "userId" integer not null references "users"("id"),
-    "urlId" integer not null references "urls"("id"),
-    "visitCount" integer not null
+CREATE TABLE "ranking"(
+    "id" SERIAL PRIMARY KEY,
+    "userId" INTEGER NOT NULL REFERENCES "users"("id"),
+    "urlId" INTEGER NOT NULL REFERENCES "urls"("id"),
+    "visitCount" INTEGER NOT NULL
 );

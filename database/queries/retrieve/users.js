@@ -1,10 +1,7 @@
 import dbConnection from "../../dbConnect.js";
 
-const getUser = async (data) => {
-    const sql = `select * from "users"`;
-    const query = await dbConnection.query(sql);
-    console.log(query);
+export const getUserByEmail = async (email) => {
+    const sql = `SELECT * FROM users WHERE email=$1`;
+    const query = await dbConnection.query(sql, [email]);
     return query;
 }
-
-export default getUser;
