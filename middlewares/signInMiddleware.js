@@ -10,7 +10,7 @@ const signInMiddleware = (req, res, next) => {
         next();
         return;
     }
-    res.status(422).send(validation.error);
+    res.status(422).send(validation.error.details);
 }
 
 export default signInMiddleware;

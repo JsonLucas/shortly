@@ -9,19 +9,20 @@ CREATE TABLE "users"(
 CREATE TABLE "sessions"(
     "id" SERIAL PRIMARY KEY,
     "userId" INTEGER NOT NULL REFERENCES "users"("id"),
-    "authorization" TEXT NOT NULL
+    "sessionToken" TEXT NOT NULL,
+    "sessionContent" TEXT NOT NULL
 );
 
 CREATE TABLE "urls"(
     "id" SERIAL PRIMARY KEY,
     "userId" INTEGER NOT NULL REFERENCES "users"("id"),
     "fullUrl" TEXT NOT NULL,
-    "shortUrl" TEXT
+    "shortUrl" TEXT NOT NULL UNIQUE,
+    "visitCount" INTEGER NOT NULL
 );
 
 CREATE TABLE "ranking"(
     "id" SERIAL PRIMARY KEY,
     "userId" INTEGER NOT NULL REFERENCES "users"("id"),
-    "urlId" INTEGER NOT NULL REFERENCES "urls"("id"),
-    "visitCount" INTEGER NOT NULL
+    "urlId" INTEGER NOT NULL REFERENCES "urls"("id")
 );

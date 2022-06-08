@@ -11,3 +11,7 @@ export const schemaSignIn = joi.object({
     email: joi.string().required(),
     password: joi.string().required()
 });
+
+export const schemaUrls = joi.object({
+    url: joi.string().uri().required()
+});

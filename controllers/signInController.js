@@ -10,6 +10,7 @@ const signInController = async (req, res) => {
             const comparePasswords = decryptPassword(password, users.rows[0].password);
             if(comparePasswords){
                 const token = generateToken(email);
+                console.log(token);
                 res.status(200).send({authorization: `Bearer ${token}`});
                 return;
             }
