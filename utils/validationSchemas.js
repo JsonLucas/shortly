@@ -6,3 +6,8 @@ export const schemaSignUp = joi.object({
     password: joi.string().required(),
     confirmPassword: joi.ref('password')
 });
+
+export const schemaSignIn = joi.object({
+    email: joi.string().required(),
+    password: joi.string().required()
+});
