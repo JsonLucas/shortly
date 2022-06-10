@@ -1,6 +1,5 @@
 import getSession from "../database/queries/retrieve/sessions.js";
 import { getUrlById } from "../database/queries/retrieve/urls.js";
-import { verifyToken } from "../utils/tokenUtils.js";
 
 const deleteUrlMiddleware = async (req, res, next) => {
     try{
@@ -12,10 +11,9 @@ const deleteUrlMiddleware = async (req, res, next) => {
             const url = await getUrlById(id);
             if(url.rowCount > 0){
                 if(session.rowCount > 0){
-                    const { sessionToken, sessionKey } = session.rows[0];
-                    const verificateToken = verifyToken(sessionToken, sessionKey);
-                    if(verificateToken.status){ 
-                        if(session.rows[0].userId === url.rows[0].userId){
+                    const { sessionToken, sessionKey, userId } = session.rows[0];
+                    if(sessionToken.split('.').find((item) => { return item === tokenAux[1] })){ 
+                        if(userId === url.rows[0].userId){
                             res.locals.shortUrlId = id;
                             res.locals.userId = userId;
                             next();

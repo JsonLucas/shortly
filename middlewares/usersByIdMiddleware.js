@@ -8,8 +8,7 @@ const usersByIdMiddleware = async (req, res, next) => {
             const authAux = authorization.split(' ');
             const session = await getSession(authAux[1]);
             const { sessionToken } = session.rows[0];
-            const fullToken = sessionToken.split('.');
-            if(fullToken.find((item) => { return item === authAux[1] }) !== undefined){
+            if(sessionToken.split('.').find((item) => { return item === authAux[1] }) !== undefined){
                 res.locals.userId = id;
                 next();
                 return;

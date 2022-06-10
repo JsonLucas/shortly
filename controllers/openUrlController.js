@@ -6,7 +6,8 @@ const openUrlController = async (req, res) => {
         const { shortUrl } = req.params;
         const query = await getFullUrlByShortUrl(shortUrl);
         if(query.rowCount > 0){
-            await updateUrlVisitCount(shortUrl, query.visitCount);
+            const { fullUrl, visitCount } = query;
+            await updateUrlVisitCount(shortUrl, visitCount);
             res.redirect(query.fullUrl);
             return;
         }

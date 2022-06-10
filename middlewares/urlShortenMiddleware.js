@@ -1,5 +1,4 @@
 import getSession from "../database/queries/retrieve/sessions.js";
-import { verifyToken } from "../utils/tokenUtils.js";
 import { validateUrl } from "../utils/validationFunctions.js";
 
 const urlShortenMiddleware = async (req, res, next) => {
@@ -13,8 +12,7 @@ const urlShortenMiddleware = async (req, res, next) => {
             if(activeSession.rowCount > 0){
                 const { rows } = activeSession;
                 const { userId, sessionToken, sessionKey } = rows[0];
-                const { status } = verifyToken(sessionToken, sessionKey);
-                if(status){
+                if(sessionToken.split('.').find((item) => { return item === token })){
                     const validation = validateUrl({ url });
                     if(validation.status){
                         res.locals.fullUrl = url;

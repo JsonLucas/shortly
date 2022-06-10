@@ -8,15 +8,19 @@ const signInMiddleware = async (req, res, next) => {
         const validation = validateSignIn(body);
         if(validation.status){
             const { email, password } = body;
-            const { rows } = await getUserByEmail(email);
-            const comparePasswords = decryptPassword(password, rows[0].password);
-            if(comparePasswords){
-                res.locals.userId = rows[0].id;
-                res.locals.email = rows[0].email;
-                next();
+            const { rowCount, rows } = await getUserByEmail(email);
+            if(rowCount > 0){
+                const comparePasswords = decryptPassword(password, rows[0].password);
+                if(comparePasswords){
+                    res.locals.userId = rows[0].id;
+                    res.locals.email = rows[0].email;
+                    next();
+                    return;
+                }  
+                res.status(401).send('incorrect password');
                 return;
             }
-            res.status(401).send('incorrect password');
+            res.sendStatus(404);
             return;
         }
         res.status(422).send(validation.error.details);

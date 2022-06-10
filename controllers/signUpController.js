@@ -12,7 +12,6 @@ const signUpController = async (req, res) => {
             await createUser({name, email, password: encryptedPassword});
             res.sendStatus(201);
         }else{
-            console.log(validation.error.details);
             res.status(422).send(validation.error.details);
         }
     }catch(e){

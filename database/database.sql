@@ -23,10 +23,3 @@ CREATE TABLE "urls"(
     "visitCount" INTEGER DEFAULT 0,
     "createdAt" DATE DEFAULT NOW()
 );
-
-CREATE TABLE "ranking"(
-    "id" SERIAL PRIMARY KEY,
-    "userId" INTEGER NOT NULL REFERENCES "users"("id"),
-    "urlId" INTEGER NOT NULL REFERENCES "urls"("id"),
-    "createdAt" DATE DEFAULT NOW()
-);
