@@ -19,8 +19,7 @@ const urlShortenMiddleware = async (req, res, next) => {
                     if(validation.status){
                         res.locals.fullUrl = url;
                         res.locals.userId = userId;
-                        //next();
-                        res.sendStatus(200);
+                        next();
                         return;
                     }
                     res.status(422).send(validation.error.details);
