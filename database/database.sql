@@ -11,7 +11,7 @@ CREATE TABLE "sessions"(
     "id" SERIAL PRIMARY KEY,
     "userId" INTEGER NOT NULL REFERENCES "users"("id"),
     "sessionToken" TEXT NOT NULL,
-    "sessionContent" TEXT NOT NULL,
+    "sessionKey" TEXT NOT NULL,
     "createdAt" DATE DEFAULT NOW()
 );
 

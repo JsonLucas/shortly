@@ -1,8 +1,8 @@
 import dbConnection from "../../dbConnect.js";
 
-const deleteShortUrl = async (id) => {
-    const sql = `DELETE FROM urls WHERE id=$1`;
-    const query = await dbConnection.query(sql, [id]);
+const deleteShortUrl = async (urlId, userId) => {
+    const sql = `DELETE FROM urls WHERE id=$1 AND "userId"=$2`;
+    const query = await dbConnection.query(sql, [urlId, userId]);
     return query;
 }
 
