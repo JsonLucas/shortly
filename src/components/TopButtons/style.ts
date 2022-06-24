@@ -18,6 +18,7 @@ export const TopButton = styled.p<IProps>`
     box-sizing: border-box;
     font-size: 14px;
     color: ${({buttonType}) => buttonType === 'sign-up' ? '#5D9040' : '#9C9C9C'};
+    ${({hidden}) => hidden ? 'display: none;' : ''}
     font-family: 'Lexend Deca', sans-serif;
     cursor: pointer;
 `;

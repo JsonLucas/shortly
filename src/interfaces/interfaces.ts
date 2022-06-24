@@ -4,3 +4,7 @@ export interface signUserData {
     password: String, 
     confirmPassword?: String 
 }
+
+export interface pageLocation {
+    pageLocation: String
+};
