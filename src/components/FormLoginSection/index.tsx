@@ -1,7 +1,7 @@
 import { Container, Field, RowField } from "../FormSignUpSection/style";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import signInRequest from "../../api/services/signInRequest";
+import { signInRequest } from "../../api/services";
 
 export default function FormLoginSection () {
     const [email, setEmail] = useState('');
@@ -14,10 +14,9 @@ export default function FormLoginSection () {
         try{
             setDisabled(true);
             const request = await signInRequest(body);
-            if(request.status === 200){
-                localStorage.setItem('authorization', JSON.stringify(request.data.token));
-                navigate('/');
-            }
+            localStorage.setItem('authorization', JSON.stringify(request.data.token));
+            localStorage.setItem('userData', JSON.stringify(request.data.name));
+            navigate('/');
         }catch(e: any){
             console.log(e.message);
             setDisabled(false);

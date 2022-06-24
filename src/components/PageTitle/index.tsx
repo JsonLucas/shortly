@@ -5,7 +5,7 @@ export default function PageTitle () {
         <RowTitle>
             <Title>Shortly</Title>
             <SlotIcon>
-                <Icon src='' />
+                <Icon src='../../assets/shortlyIcon.svg' />
             </SlotIcon>
         </RowTitle>
     );

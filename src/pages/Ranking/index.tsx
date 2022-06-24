@@ -1,5 +1,5 @@
-import { pageLocation } from "../../interfaces/interfaces";
+import { IPageLocation } from "../../interfaces/interfaces";
 
-export default function Ranking({pageLocation}: pageLocation){
+export default function Ranking({pageLocation}: IPageLocation){
     return(<></>);
 }

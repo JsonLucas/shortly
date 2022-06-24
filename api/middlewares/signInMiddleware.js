@@ -14,6 +14,7 @@ const signInMiddleware = async (req, res, next) => {
                 if(comparePasswords){
                     res.locals.userId = rows[0].id;
                     res.locals.email = rows[0].email;
+                    res.locals.username = rows[0].name;
                     next();
                     return;
                 }  

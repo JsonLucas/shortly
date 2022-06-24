@@ -1,7 +1,29 @@
-import { Fragment } from "react";
+import { Fragment, useState, useEffect } from "react";
+import { getRankingRequest } from "../../api/services";
+import { ILoadingStatus } from "../../interfaces/interfaces";
 import { ContainerRankingUsers, RowRanking, RowSignUp } from "./style";
 
 export default function RankingSection () {
+    const [ranking, setRanking] = useState<Array<any>>([]); 
+    const [loaded, setLoaded] = useState<ILoadingStatus>({status: false, error: ''});
+    const [logged, setLogged] = useState<boolean>(false);
+    useEffect(() => {
+        const auxLocal = localStorage.getItem('authorization');
+        if(!auxLocal){
+            setLogged(false);
+        }
+        async function getRanking() {
+            try{
+                const response = await getRankingRequest();
+                setRanking(response.data);
+                setLoaded({status: true, error: ''});
+            }catch(e: any){
+                console.log(e);
+                setLoaded({status: true, error: e.message});
+            }
+        }
+        getRanking();
+    }, []);
     const users = [
         {
             name: 'user1', 
@@ -36,7 +58,7 @@ export default function RankingSection () {
                     <RowRanking>{`${index+1}. ${item.name} - ${item.numLinks} Links - ${item.visitCount} visualizações`}</RowRanking>
                 )}
             </ContainerRankingUsers>
-            <RowSignUp>Crie sua conta para usar nosso serviço!</RowSignUp>
+            <RowSignUp isLogged={logged}>Crie sua conta para usar nosso serviço!</RowSignUp>
         </Fragment>
     );
 }

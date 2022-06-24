@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+interface IProps{
+    isLogged?: boolean
+}
+
 export const ContainerRankingUsers = styled.div`
     box-sizing: border-box;
     width: 1017px;
@@ -17,7 +21,8 @@ export const RowRanking = styled.p`
     font-family: 'Lexend Deca', sans-serif;
 `;
 
-export const RowSignUp = styled.p`
+export const RowSignUp = styled.p<IProps>`
+    ${({isLogged}) => isLogged ? 'display: none;' : ''}
     box-sizing: border-box;
     margin: 90px;
     text-align: center;

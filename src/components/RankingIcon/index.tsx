@@ -4,7 +4,7 @@ export default function RankingIcon (){
     return (
         <RowIcon>
             <SlotIcon>
-                <Icon src='' />
+                <Icon src='../../assets/trophy-icon.png' />
             </SlotIcon>
             <RankingSubtitle>Ranking</RankingSubtitle>
         </RowIcon>

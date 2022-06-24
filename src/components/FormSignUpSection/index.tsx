@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import signUpRequest from "../../api/services/signUpRequest";
+import { signUpRequest } from "../../api/services";
 import { Container, Field, RowField } from "./style";
 
 export default function FormSignUpSection () {
