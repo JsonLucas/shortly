@@ -3,33 +3,33 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import shortlyIcon from '../../assets/shortly-icon.svg';
+import { useToken } from '../../hooks/useToken';
 export function Header() {
 	const [logged, setLogged] = useState<boolean>(false);
+	const { getToken, removeToken } = useToken();
 	const navigate = useNavigate();
+	const logout = () => {
+		removeToken();
+		window.location.reload();
+	}
 	useEffect(() => {
-		try {
-			const token = localStorage.getItem('token');
-			if (token) {
-				setLogged(true);
-			}
-		} catch (e: any) {
-			console.log(e);
-			toast(e.message);
+		const token = getToken();
+		if (token) {
+			setLogged(true);
 		}
 	}, []);
 	return (
 		<>
-			<Box padding='10px' width='100%' display='flex' justifyContent='space-between' alignItems='center'>
-				{logged && <Text fontWeight='bold' color='#80CC74'>Bem vindo pessoa!</Text>}
-				<Box display='flex' justifyContent='flex-end'>
-					{logged && <>
+			<Box padding='10px' w='100%' display='flex' justifyContent='space-between' alignItems='center'>
+				<Box display='flex' justifyContent='flex-end' w='100%'>
+					{!logged && <>
 						<Text padding='5px' cursor='pointer' onClick={() => navigate('/login')}>Entrar</Text>
 						<Text padding='5px' cursor='pointer' color='#80CC74' onClick={() => navigate('/signup')}>Cadastrar</Text>
 					</>}
-					{!logged && <>
+					{logged && <>
 						<Text padding='5px' cursor='pointer'>Home</Text>
 						<Text padding='5px' cursor='pointer'>Ranking</Text>
-						<Text padding='5px' cursor='pointer' color='darkred'>Sair</Text>
+						<Text padding='5px' cursor='pointer' color='darkred' onClick={logout}>Sair</Text>
 					</>}
 				</Box>
 			</Box>

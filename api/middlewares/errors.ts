@@ -9,10 +9,7 @@ interface Error{
 export const errorHandler = async (e: Error, req: Request, res: Response, next: NextFunction) => {
 	const { code, error } = e;
 	if(code){
-		if(error){
-			return res.status(code).send(error);
-		}
-		return res.sendStatus(code);
+		return res.status(code).send(error);
 	}
-	res.sendStatus(500);
+	res.status(500).send(error);
 } 

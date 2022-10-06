@@ -1,3 +1,4 @@
+import { Ranking } from "../interfaces/urls";
 import { IUsers, SignUp } from "../interfaces/users";
 import { userRepository } from "../repositories/user/userRepositories";
 
@@ -14,21 +15,21 @@ export class UserBusiness implements IUserBusiness {
 
 	async create (user: SignUp): Promise<IUsers>{
 		const { email } = user;
-		const userExists = await this.getByEmail(email);
+		const userExists = await this.userRepository.getByEmail(email);
 		if(userExists) throw { code: 409, error: 'this user already exists' };
 
 		return await this.userRepository.create(user);
 	}
 
 	async getById (id: number): Promise<IUsers>{
-		const user = await this.getById(id);
+		const user = await this.userRepository.getById(id);
 		if(!user) throw { code: 404 };
 
 		return user;
 	}
 
 	async getByEmail (email: string): Promise<IUsers>{
-		const user = await this.getByEmail(email);
+		const user = await this.userRepository.getByEmail(email);
 		if(!user) throw { code: 404 };
 
 		return user;

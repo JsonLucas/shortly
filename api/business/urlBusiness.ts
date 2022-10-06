@@ -1,4 +1,4 @@
-import { IUrl, Url } from "../interfaces/urls";
+import { IUrl, Url, VisitRanking } from "../interfaces/urls";
 import { urlRepository } from "../repositories/urls/urlRepositories";
 
 interface IUrlBusiness{
@@ -6,6 +6,7 @@ interface IUrlBusiness{
 	getById: (urlId: number) => Promise<IUrl>,
 	getByUserId: (userId: number) => Promise<Array<IUrl>>,
 	getByShorten: (shortUrl: string) => Promise<IUrl>,
+	getByVisitCount: () => Promise<VisitRanking>,
 	delete: (urlId: number) => Promise<void>,
 	updateVisitCount: (updatedCount: number, urlId: number) => Promise<IUrl>
 }
@@ -38,6 +39,10 @@ export class UrlBusiness implements IUrlBusiness {
 		if(!url) throw { code: 404 };
 
 		return url;
+	}
+
+	async getByVisitCount(): Promise<VisitRanking>{
+		return await this.urlRepository.getByVisitCount();
 	}
 
 	async delete (urlId: number): Promise<void> {

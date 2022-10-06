@@ -5,13 +5,14 @@
   "repository": "https://github.com/JsonLucas/projeto16-shortly.git",
   "author": "JsonLucas",
   "license": "MIT",
-  "type": "module",
+  "private": false,
   "scripts": {
-    "dev": "nodemon",
     "build": "tsc",
-    "start": "node ./server.js"
+    "dev": "nodemon",
+    "start": "node ./dist/server.js"
   },
   "dependencies": {
+    "@faker-js/faker": "^7.5.0",
     "@prisma/client": "^4.4.0",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
@@ -31,6 +32,7 @@
     "@types/jest": "^29.1.1",
     "@types/joi": "^17.2.3",
     "@types/jsonwebtoken": "^8.5.9",
+    "@types/nanoid": "^3.0.0",
     "cross-env": "^7.0.3",
     "jest": "^29.1.2",
     "supertest": "^6.2.4",
