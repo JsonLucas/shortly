@@ -4,7 +4,7 @@ import { IoIosTrash } from 'react-icons/io';
 import { useState } from 'react';
 import { toast } from "react-toastify";
 import { useToken } from "../../hooks/useToken";
-import { createShortUrl } from "../../api/urls";
+import { createShortUrl, deleteUserUrl } from "../../api/urls";
 import { useUserUrls } from "../../hooks/useUserUrls";
 import { useMutation } from 'react-query';
 import { queryClient } from "../../main";
@@ -14,9 +14,13 @@ export function UserUrls() {
 	const [fullUrl, setFullUrl] = useState<string>('');
 	const { getToken } = useToken();
 	const { data, isLoading } = useUserUrls();
-	const { mutateAsync } = useMutation(async () => {
+	const { mutateAsync } = useMutation(async (urlId?: number) => {
 		const headers = { authorization: getToken() };
-		await createShortUrl({ fullUrl }, { headers });
+		if(urlId){
+			await deleteUserUrl(urlId, { headers });
+		}else{
+			await createShortUrl({ fullUrl }, { headers });
+		}
 	}, {
 		onSuccess: () => {
 			queryClient.invalidateQueries(['user-urls']);
@@ -25,7 +29,7 @@ export function UserUrls() {
 	});
 	const shorten = async () => {
 		try {
-			await mutateAsync();
+			await mutateAsync(undefined);
 			toast('Url encurtada com sucesso!');
 		} catch (e: any) {
 			toast(e.message);
@@ -34,7 +38,8 @@ export function UserUrls() {
 	}
 	const deleteUrl = async (id: number) => {
 		try{
-			console.log(id);
+			await mutateAsync(id);
+			toast('Url deletada com sucesso!');
 		}catch(e: any){
 			console.log(e);
 			toast(e.message);

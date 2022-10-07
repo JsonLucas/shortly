@@ -1,10 +1,19 @@
 import { Box, Text, Image } from '@chakra-ui/react';
 import trophyIcon from '../../assets/trophy-icon.svg';
 import { useRankingUrls } from '../../hooks/useRankingUrls';
+import { useToken } from '../../hooks/useToken';
 import { Header } from '../Header';
 import { Loading } from '../Loading';
+import { useState, useEffect } from 'react';
 export function Ranking() {
 	const { data, isLoading } = useRankingUrls();
+	const { getToken } = useToken();
+	const [logged, setLogged] = useState<boolean>(false);
+	useEffect(() => {
+		if (getToken()) {
+			setLogged(true);
+		}
+	}, []);
 	return (
 		<>
 			<Header />
@@ -16,16 +25,16 @@ export function Ranking() {
 				</Box>
 				<Box width='97%' mx='auto' p='7px' mt='25px'
 					border='1px solid rgba(0, 0, 0, 0.5)' borderRadius='5px 5px 0px 0px'>
-					{data && <>
-						{data.ranking.map((item, index) => <Box display='flex' key={index}>
-							<Text fontWeight='bold'>{(index+1)}. {item.user.name} - 10 links - {item.visitCount}&nbsp;</Text>
-							<Text> visualizações</Text>
-						</Box>
-						)}
-					</>
-					}
+					<Box display='flex'>
+						<Text fontWeight='bold'>1. name - 10 links - 10&nbsp;</Text>
+						<Text>visualizações</Text>
+					</Box>
 				</Box>
-				<Text mt='50px' fontWeight='bold' mx='auto' textAlign='center' fontSize='30px'>Crie sua conta para usar nosso serviço!</Text>
+				{!logged &&
+					<Text mt='50px' fontWeight='bold' mx='auto' textAlign='center' fontSize='30px'>
+						Crie sua conta para usar nosso serviço!
+					</Text>
+				}
 			</Box>
 		</>
 	);

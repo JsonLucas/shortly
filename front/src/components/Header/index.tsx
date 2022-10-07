@@ -27,8 +27,8 @@ export function Header() {
 						<Text padding='5px' cursor='pointer' color='#80CC74' onClick={() => navigate('/signup')}>Cadastrar</Text>
 					</>}
 					{logged && <>
-						<Text padding='5px' cursor='pointer'>Home</Text>
-						<Text padding='5px' cursor='pointer'>Ranking</Text>
+						<Text padding='5px' cursor='pointer' onClick={() => navigate('/')}>Home</Text>
+						<Text padding='5px' cursor='pointer' onClick={() => navigate('/ranking')}>Ranking</Text>
 						<Text padding='5px' cursor='pointer' color='darkred' onClick={logout}>Sair</Text>
 					</>}
 				</Box>

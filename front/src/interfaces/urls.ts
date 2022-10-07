@@ -9,5 +9,4 @@ export interface IUrl{
 }
 
 export type Url = Pick<IUrl, 'fullUrl'>;
-export type Ranking = Pick<IUrl, 'fullUrl' | 'shortUrl' | 'visitCount' | 'userId' | 'id'> & { user: { name: string } };
-export type VisitRanking = { ranking: Array<Ranking>, countLinks: { _count: { userId: number } } }
+export type Ranking = Omit<IUrl, 'createdAt' | 'updatedAt' | 'userId'>;

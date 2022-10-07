@@ -1,3 +1,5 @@
+import { Ranking } from "./urls";
+
 export interface IUsers{
 	id?: number,
 	name: string,
@@ -9,3 +11,4 @@ export interface IUsers{
 
 export type SignIn = Pick<IUsers, 'email' | 'password'>;
 export type SignUp = { confirmPassword: string } & Pick<IUsers, 'name' | 'email' | 'password'>;
+export type RankingUsers = { ranking: Array<Pick<IUsers, 'id' | 'name'> & { url: Array<Ranking> }> } & { urlsCount: Array<number> };

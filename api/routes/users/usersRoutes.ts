@@ -1,6 +1,5 @@
 import { Router } from "express";
-import { getRankingController } from "../../controllers/urlsController";
-import { getUrlsByUserIdController, signInController, signUpController } from "../../controllers/usersController";
+import { getRankingController, getUrlsByUserIdController, signInController, signUpController } from "../../controllers/usersController";
 import { authMiddlware, validateSignInMiddleware, validateSignUpMiddleware } from "../../middlewares/usersMiddleware";
 
 const usersRoutes = Router();

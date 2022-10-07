@@ -1,4 +1,4 @@
-import { IUrl, Url, VisitRanking } from "../../interfaces/urls";
+import { IUrl, Url } from "../../interfaces/urls";
 import { prisma } from "../../prisma/database";
 import { IUrlRepository } from "./interfaces";
 
@@ -17,31 +17,6 @@ export class urlRepository implements IUrlRepository{
 	
 	async getByUserId(userId: number): Promise<Array<IUrl>>{
 		return await prisma.urls.findMany({where: { userId }});
-	}
-
-	async getByVisitCount(): Promise<VisitRanking>{
-		const countLinks = await prisma.urls.aggregate({
-			_count: {
-				userId: true
-			}
-		});
-		const ranking = await prisma.urls.findMany({select: 
-			{
-				id: true,
-				fullUrl: true,
-				shortUrl: true,
-				visitCount: true,
-				userId: true,
-				user: {
-					select: {
-						name: true
-					}
-				}
-			}, 
-			orderBy: { visitCount: 'desc' }, 
-			take: 5
-		});
-		return { ranking, countLinks };
 	}
 	
 	async delete(urlId: number): Promise<any>{

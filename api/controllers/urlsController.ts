@@ -19,9 +19,11 @@ export const getUrlsController = async (req: Request, res: Response) => {
 	res.status(200).send(urls);
 }
 
-export const getRankingController = async (req: Request, res: Response) => {
-	const ranking = await urlBusiness.getByVisitCount();
-	res.status(200).send(ranking);
+export const updateVisitCountController = async (req: Request, res: Response) => {
+	const { shortUrl } = req.params;
+	const { id, fullUrl } = await urlBusiness.getByShorten(shortUrl);
+	await urlBusiness.updateVisitCount(id);
+	res.redirect(fullUrl);
 }
 
 export const deleteUrlController = async (req: Request, res: Response) => {

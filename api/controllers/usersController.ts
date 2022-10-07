@@ -6,9 +6,10 @@ import { userRepository } from '../repositories/user/userRepositories';
 import { comparePassword, encryptPassword } from '../utils/passwordCrypt';
 import { generateToken } from '../utils/tokenUtils';
 
+const userBusiness = new UserBusiness(new userRepository());
+
 export const signUpController = async (req: Request, res: Response) => {
 	const { data } = res.locals;
-	const userBusiness = new UserBusiness(new userRepository());
 	const hash = encryptPassword(data.password);
 	await userBusiness.create({...data, password: hash});
 	res.sendStatus(201);
@@ -16,7 +17,6 @@ export const signUpController = async (req: Request, res: Response) => {
 
 export const signInController = async (req: Request, res: Response) => {
 	const { data } = res.locals;
-	const userBusiness = new UserBusiness(new userRepository());
 	const user = await userBusiness.getByEmail(data.email);
 	if(!comparePassword(data.password, user.password)) throw { code: 401, error: 'incorrect password' };
 
@@ -31,4 +31,8 @@ export const getUrlsByUserIdController = async (req: Request, res: Response) => 
 	res.status(200).send(urls);
 }
 
-export const getRankingController = async (req: Request, res: Response) => {}
+export const getRankingController = async (req: Request, res: Response) => {
+	const ranking = await userBusiness.getUsersRanking();
+	console.log(ranking);
+	res.status(200).send(ranking);
+}
