@@ -1,3 +1,5 @@
+import { IUsers } from "./users";
+
 export interface IUrl{
 	id?: number,
     fullUrl: string,
@@ -9,4 +11,4 @@ export interface IUrl{
 };
 
 export type Url = Pick<IUrl, 'fullUrl' | 'shortUrl' | 'userId'>;
-export type UrlRanking = Omit<IUrl, 'createdAt' | 'updatedAt' | 'userId'>;
+export type Ranking = Pick<IUrl, 'visitCount'> & { user: Pick<IUsers, 'name' | 'id'> };

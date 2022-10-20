@@ -1,11 +1,12 @@
-import { IUrl, Url } from "../interfaces/urls";
+import { IUrl, Ranking, Url } from "../interfaces/urls";
 import { urlRepository } from "../repositories/urls/urlRepositories";
 
 interface IUrlBusiness{
 	create: (url: Url) => Promise<IUrl>,
 	getById: (urlId: number) => Promise<IUrl>,
 	getByUserId: (userId: number) => Promise<Array<IUrl>>,
-	getByShorten: (shortUrl: string) => Promise<IUrl>
+	getByShorten: (shortUrl: string) => Promise<IUrl>,
+	getRanking?: () => Promise<any>,
 	delete: (urlId: number) => Promise<void>,
 	updateVisitCount: (updatedCount: number, urlId: number) => Promise<IUrl>
 }
@@ -40,6 +41,10 @@ export class UrlBusiness implements IUrlBusiness {
 		return url;
 	}
 
+	async getRanking (): Promise<Array<Ranking>>{
+		return await this.urlRepository.getRanking();
+	}
+
 	async delete (urlId: number): Promise<void> {
 		const urlExists = await this.getById(urlId);
 		if(!urlExists) throw { code: 404 };
@@ -52,7 +57,7 @@ export class UrlBusiness implements IUrlBusiness {
 		if(!url) throw { code: 404 };
 
 		const { visitCount } = url;
-		if(!visitCount) throw { code: 500, error: 'invalid visit count' };
+		//if(!visitCount) throw { code: 500, error: 'invalid visit count' };
 
 		const updatedCount = visitCount + 1;
 		return await this.urlRepository.updateVisitCount(updatedCount, urlId);

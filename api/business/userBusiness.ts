@@ -1,11 +1,10 @@
-import { IUsers, Ranking, SignUp } from "../interfaces/users";
+import { IUsers, SignUp } from "../interfaces/users";
 import { userRepository } from "../repositories/user/userRepositories";
 
 interface IUserBusiness{
 	create: (user: SignUp) => Promise<IUsers>,
 	getById: (id: number) => Promise<IUsers>,
-	getByEmail: (email: string) => Promise<IUsers>,
-	getUsersRanking: () => Promise<Ranking>
+	getByEmail: (email: string) => Promise<IUsers>
 }
 
 export class UserBusiness implements IUserBusiness {
@@ -33,9 +32,5 @@ export class UserBusiness implements IUserBusiness {
 		if(!user) throw { code: 404 };
 
 		return user;
-	}
-
-	async getUsersRanking(): Promise<Ranking>{
-		return await this.userRepository.getUsersRanking();
 	}
 }

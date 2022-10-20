@@ -23,7 +23,7 @@ export const updateVisitCountController = async (req: Request, res: Response) =>
 	const { shortUrl } = req.params;
 	const { id, fullUrl } = await urlBusiness.getByShorten(shortUrl);
 	await urlBusiness.updateVisitCount(id);
-	res.redirect(fullUrl);
+	res.sendStatus(202);
 }
 
 export const deleteUrlController = async (req: Request, res: Response) => {
@@ -31,4 +31,9 @@ export const deleteUrlController = async (req: Request, res: Response) => {
 	const { userId } = res.locals;
 	await urlBusiness.delete(Number(id));
 	res.sendStatus(204);
+}
+
+export const getUrlRankingController = async (req: Request, res: Response) => {
+	const ranking = await urlBusiness.getRanking();
+	res.status(200).send(ranking);
 }

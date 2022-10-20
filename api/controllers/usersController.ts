@@ -30,9 +30,3 @@ export const getUrlsByUserIdController = async (req: Request, res: Response) => 
 	const urls = await urlBusiness.getByUserId(userId);
 	res.status(200).send(urls);
 }
-
-export const getRankingController = async (req: Request, res: Response) => {
-	const ranking = await userBusiness.getUsersRanking();
-	console.log(ranking);
-	res.status(200).send(ranking);
-}
