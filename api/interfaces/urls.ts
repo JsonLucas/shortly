@@ -11,4 +11,4 @@ export interface IUrl{
 };
 
 export type Url = Pick<IUrl, 'fullUrl' | 'shortUrl' | 'userId'>;
-export type Ranking = Pick<IUrl, 'visitCount'> & { user: Pick<IUsers, 'name' | 'id'> };
+export type Ranking = { user: Pick<IUsers, 'name' | 'id'>, numLinks: number, totalVisits: number };

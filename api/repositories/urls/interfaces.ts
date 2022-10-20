@@ -5,7 +5,7 @@ export interface IUrlRepository {
 	getById: (urlId: number) => Promise<IUrl>,
 	getByShorten: (shortUrl: string) => Promise<IUrl>,
 	getByUserId: (userId: number) => Promise<Array<IUrl>>,
-	getRanking: () => Promise<any>//<Array<Ranking>>,
+	getRanking: () => Promise<Array<Ranking>>,
 	delete: (urlId: number) => Promise<void>,
 	updateVisitCount: (updatedCount: number, urlId: number) => Promise<IUrl>
 }

@@ -19,18 +19,28 @@ export class urlRepository implements IUrlRepository{
 		return await prisma.urls.findMany({where: { userId }});
 	}
 	
-	async getRanking (): Promise<any>/*<Array<Ranking>>*/{
+	async getRanking (): Promise<Array<Ranking>>{
 		const links = await prisma.urls.findMany({
 			select: {
 				user: {
 					select: { id: true, name: true }
-				},
-				visitCount: true
+				}
 			},
+			distinct: ['userId'],
 			orderBy: { visitCount: 'asc' },
 			take: 10
 		});
-		return links;
+		let auxLinks: Array<Ranking> = [];
+		for(let i in links){
+			const aux = links[i];
+			const dataSum = await prisma.urls.aggregate({
+				_count: { _all: true },
+				_sum: { visitCount: true },
+				where: { user: { id: aux.user.id } }	
+			});
+			auxLinks.push({...aux, numLinks: dataSum._count._all, totalVisits: dataSum._sum.visitCount});
+		}
+		return auxLinks;
 	}
 
 	async delete(urlId: number): Promise<any>{

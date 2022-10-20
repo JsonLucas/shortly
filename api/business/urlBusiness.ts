@@ -6,7 +6,7 @@ interface IUrlBusiness{
 	getById: (urlId: number) => Promise<IUrl>,
 	getByUserId: (userId: number) => Promise<Array<IUrl>>,
 	getByShorten: (shortUrl: string) => Promise<IUrl>,
-	getRanking?: () => Promise<any>,
+	getRanking?: () => Promise<Array<Ranking>>,
 	delete: (urlId: number) => Promise<void>,
 	updateVisitCount: (updatedCount: number, urlId: number) => Promise<IUrl>
 }
@@ -57,9 +57,8 @@ export class UrlBusiness implements IUrlBusiness {
 		if(!url) throw { code: 404 };
 
 		const { visitCount } = url;
-		//if(!visitCount) throw { code: 500, error: 'invalid visit count' };
-
 		const updatedCount = visitCount + 1;
+		
 		return await this.urlRepository.updateVisitCount(updatedCount, urlId);
 	}
 }
