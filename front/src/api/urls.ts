@@ -1,7 +1,6 @@
 import { api } from ".";
 import { IHeaders } from "../interfaces/auth";
 import { IUrl, Ranking, Url } from "../interfaces/urls";
-import { RankingUsers } from "../interfaces/users";
 
 export const getUserUrls = async (headers: IHeaders) => {
 	const { data } = await api.get<Array<IUrl>>('/urls', headers);
@@ -13,7 +12,7 @@ export const createShortUrl = async (body: Url, headers: IHeaders) => {
 }
 
 export const getRanking = async () => {
-	const { data } = await api.get<RankingUsers>('/ranking');
+	const { data } = await api.get<Array<Ranking>>('/urls/ranking');
 	return data;
 }
 
