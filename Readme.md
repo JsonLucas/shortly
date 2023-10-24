@@ -1,0 +1,7 @@
+# Shortly
+
+## Instruções para executar o projeto
+* Verificar se o git está instalado, e em caso de não estar, clicar no botão **code** e "Download zip", navegar até o local de download, descompactar pasta e abrir o terminal dentro dela. Caso esteja instalado, copie ssh ou https, abra o terminal e digite **git clone _url copiada_**, feito isso, entre com o comando cd shortly para entrar na pasta clonada.
+* Feito isso, verificar se docker e docker-compose estão instalados rodando os comandos **docker -v** e **docker-compose -v**, respectivamente. Caso não estejam, siga o passo a passo de instalação através da documentação oficial seguindo o link https://docs.docker.com/get-docker/. 
+* Feito isso, rode pelo terminal os seguintes comandos: **docker-compose build** e depois **docker-compose up -d**.
+* Caso não consiga fazer as instalações acima, rode o comando **npm i** ou **yarn** na pasta front, e depois rode o mesmo comando na pasta api através do terminal, para instalar todas as dependências do projeto. Use o comando cd para navegar entre as pastas. Depois de instaladas as dependências, rode o comando **yarn dev** ou **npm run dev** na pasta front e na pasta api para iniciar o sistema.

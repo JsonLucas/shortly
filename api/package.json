@@ -1,15 +1,15 @@
 {
-  "name": "projeto17-shortly",
+  "name": "shortly",
   "version": "2.0.0",
   "main": "server.ts",
-  "repository": "https://github.com/JsonLucas/projeto16-shortly.git",
+  "repository": "",
   "author": "JsonLucas",
   "license": "MIT",
   "private": false,
   "scripts": {
     "build": "tsc",
     "dev": "nodemon",
-    "start": "node ./dist/server.js"
+    "start": "yarn prisma db push && node ./dist/server.js"
   },
   "dependencies": {
     "@faker-js/faker": "^7.5.0",
