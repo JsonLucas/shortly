@@ -1,6 +1,13 @@
-export const useToast = () => {
-	const successToast = (message: string) => {};
-	const errorToast = (message: string) => {};
+import { useToast as useChakraToast, UseToastOptions } from '@chakra-ui/react';
 
-	return { successToast, errorToast };
+export const useToast = () => {
+	const toast = useChakraToast();
+	const genericToast = (message: string, options?: UseToastOptions) => toast({ 
+		description: message,
+		duration: 3000,
+		isClosable: true,
+		...options  
+	});
+
+	return { genericToast };
 }

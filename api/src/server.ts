@@ -23,6 +23,7 @@ import { VisitLinkUseCase } from "./usecases/link/visit-link.usecase";
 import { VisitLinkRoute } from "./infra/api/routes/link/visit-link.route";
 import { GetRankingUseCase } from "./usecases/link/ranking.usecase";
 import { GetLinkRankingRoute } from "./infra/api/routes/link/get-link-ranking.route";
+import { GetLinkByShortenUseCase } from "./usecases/link/get-link-by-shorten.usecase";
 
 (() => {
     const validator = Validator.create();
@@ -37,6 +38,7 @@ import { GetLinkRankingRoute } from "./infra/api/routes/link/get-link-ranking.ro
 
     const createLinkUseCase = CreateLinkUseCase.create(linkRepository);
     const getLinkByIdUseCase = GetLinkByIdUseCase.create(linkRepository);
+    const getLinkByShortenUseCase = GetLinkByShortenUseCase.create(linkRepository);
     const getAllLinksUseCase = GetAllLinksUseCase.create(linkRepository);
     const deleteLinkUseCase = DeleteLinkUseCase.create(linkRepository);
     const updateLinkUseCase = UpdateLinkUseCase.create(linkRepository);
@@ -50,7 +52,7 @@ import { GetLinkRankingRoute } from "./infra/api/routes/link/get-link-ranking.ro
     const deleteLinkRoute = DeleteLinkRoute.create(getLinkByIdUseCase, deleteLinkUseCase, getUserByIdUseCase, crypto);
     const updateLinkRoute = UpdateLinkRoute.create(getLinkByIdUseCase, updateLinkUseCase, getUserByIdUseCase, crypto, validator);
     const getAllLinksRoute = GetAllLinksRoute.create(getAllLinksUseCase);
-    const visitLinkRoute = VisitLinkRoute.create(getLinkByIdUseCase, visitLinkUseCase);
+    const visitLinkRoute = VisitLinkRoute.create(getLinkByShortenUseCase, visitLinkUseCase);
     const getLinkRankingRoute = GetLinkRankingRoute.create(rankingUseCase);
 
     const api = ApiExpress.create([

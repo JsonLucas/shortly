@@ -31,4 +31,12 @@ export class Link {
     public get userId() {
         return this.link.userId;
     }
+
+    public get createdAt() {
+        return this.link.createdAt;
+    }
+
+    public get updtedAt() {
+        return this.link.updatedAt;
+    }
 }

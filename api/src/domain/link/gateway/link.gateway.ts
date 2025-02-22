@@ -8,6 +8,7 @@ export interface ILinkGateway {
     getRanking: () => Promise<Ranking[]>
     getById: (id: number) => Promise<Link | null>
     getByUserId: (userId: number) => Promise<Link[]>
+    getByShorten: (shorten: string) => Promise<Link | null>
     saveVisitation: (visitation: CreateVisitationDTO) => Promise<Link>
     remove: (id: number) => Promise<Link>
 }

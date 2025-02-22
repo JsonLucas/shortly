@@ -14,15 +14,14 @@ export class AuthMiddleware {
 
     getHandler() {
         return async (req: Request, res: Response, next: NextFunction): Promise<void | Response> => {
-            const { cookies } = req;
-            if (!cookies.session) return res.status(401).send({ message: 'You don\'t have permission to access this resource.' });
+            const { authorization } = req.headers;
+            if(!authorization || !authorization.split(' ')[0].includes('Bearer')) return res.status(401).send({ message: 'You don\'t have persmission to access this resource.' });
+            
+            const userId = Number(this.crypto.decrypt(authorization.split(' ')[1]));
 
-            const { session } = cookies;
-            const userId = this.crypto.decrypt(session);
+            if(isNaN(userId)) return res.status(422).send({ message: 'Invalid navigation session.' });
 
-            if(isNaN(Number(userId))) return res.status(422).send({ message: 'Invalid navigation session.' });
-
-            const userExists = this.getUserByIdUseCase.execute({ id: Number(userId) });
+            const userExists = await this.getUserByIdUseCase.execute({ id: userId });
             if(!userExists) return res.status(404).send({ message: 'User not found.' });
 
             res.locals.userId = userId;

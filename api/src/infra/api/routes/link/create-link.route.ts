@@ -6,7 +6,7 @@ import { schemaUrls } from '../../../../utils/validations/schemas';
 import { CreateLinkUseCase } from '../../../../usecases/link/create-link.usecase';
 import { AuthMiddleware } from '../middleware/auth.middleware';
 import { GetUserByIdUsecase } from '../../../../usecases/user/get-user-by-id.usecase';
-import { nanoid } from 'nanoid';
+import { v4 as uuid } from 'uuid';
 
 export class CreateLinkRoute implements IRoute {
     private constructor(
@@ -20,7 +20,7 @@ export class CreateLinkRoute implements IRoute {
 
     public static create(createLinkService: CreateLinkUseCase, getUserByIdUseCase: GetUserByIdUsecase, crypto: Crypto, validator: Validator) {
         return new CreateLinkRoute(
-            "/links",
+            "/links/shorten",
             HttpMethod.POST,
             createLinkService,
             getUserByIdUseCase,
@@ -31,11 +31,13 @@ export class CreateLinkRoute implements IRoute {
 
     getHandler() {
         return async (req: Request, res: Response): Promise<void | Response> => {
-            const { url } = req.body;
+            const { fullUrl } = req.body;
             const { userId } = res.locals;
-            const shortUrl = nanoid(6);
+            
+            const auxShort = uuid().split('-');
+            const shortUrl = auxShort[Math.floor(Math.random() * auxShort.length)];
 
-            await this.createLinkService.execute({ fullUrl: url, shortUrl, userId });
+            await this.createLinkService.execute({ fullUrl, shortUrl, userId });
             return res.status(201).send({ message: 'Url successfuly shortened' });
         };
     }
@@ -46,8 +48,13 @@ export class CreateLinkRoute implements IRoute {
             async (req: Request, res: Response, next: NextFunction): Promise<void | Response> => {
                 const { body } = req;
                 
-                await this.validator.validate(schemaUrls, body);
-                next();
+                try{
+                    await this.validator.validate(schemaUrls, body);
+                    next();
+                } catch(e: any) {
+                    console.log(e.error.details);
+                    return res.status(e.code).send({ message: e.error.details[0].message });
+                }
             }
         ]
     }

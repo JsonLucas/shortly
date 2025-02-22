@@ -1,5 +1,3 @@
-export interface IHeaders{
-	headers: {
-		authorization: string
-	}
+export interface GenericObject {
+	[key: string]: any
 }

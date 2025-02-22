@@ -7,7 +7,7 @@ import { GetLinkByIdUseCase } from '../../../../usecases/link/get-link-by-id.use
 import { UpdateLinkUseCase } from '../../../../usecases/link/update-link.usecase';
 import { Validator } from '../../../../helpers/Validator';
 import { schemaUrls } from '../../../../utils/validations/schemas';
-import { nanoid } from 'nanoid';
+import { v4 as uuid } from 'uuid';
 
 export class UpdateLinkRoute implements IRoute {
     private constructor(
@@ -36,7 +36,7 @@ export class UpdateLinkRoute implements IRoute {
         return async (req: Request, res: Response): Promise<void | Response> => {
             const { id } = req.params;
             const { url } = req.body;
-            const shortUrl = nanoid(6);
+            const shortUrl = uuid().split('-')[0];
 
             await this.updateLinkService.execute({ id: Number(id), fullUrl: url, shortUrl });
             return res.status(200).send({ message: 'Url successfuly updated.' });

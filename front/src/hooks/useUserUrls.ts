@@ -1,32 +1,31 @@
 import { useMutation, useQuery } from 'react-query';
 import { createShortUrl, deleteUserUrl, getUserUrls, visitShorten } from '../api/urls';
 import { queryClient } from '../main';
-import { useToken } from './useToken';
 
 export const useUserUrls = () => {
-	const { getToken } = useToken();
-	const headers = { authorization: getToken() };
-	const userUrls = useQuery(['user-urls'], async () => {
-		const data = await getUserUrls({ headers });
-		return data;
+	const onSuccess = () => queryClient.invalidateQueries(['user-urls']);
+
+	const { data, error, isLoading, refetch } = useQuery({ queryFn: getUserUrls, queryKey: ['user-urls'] });
+
+	const { mutateAsync: shortenUrl, isLoading: isShortenLoading } = useMutation({ 
+		mutationFn: async (fullUrl: string) => await createShortUrl({ fullUrl }), 
+		onSuccess
 	});
 
-	const shortenUrl = useMutation(async (fullUrl: string) => {
-		await createShortUrl({ fullUrl }, { headers });
-	}, { onSuccess: () => { queryClient.invalidateQueries(['user-urls']); } });
+	const { mutateAsync: visitShortUrl } = useMutation({ 
+		mutationFn: async (shortUrl: string) => await visitShorten(shortUrl), 
+		onSuccess
+	});
 
-	const visitShortUrl = useMutation(async (shortUrl: string) => {
-		await visitShorten(shortUrl);
-	}, { onSuccess: () => { queryClient.invalidateQueries(['user-urls']) } });
-
-	const deleteUrl = useMutation(async (id: number) => {
-		await deleteUserUrl(id, { headers });
-	}, { onSuccess: () => { queryClient.invalidateQueries(['user-urls']); } });
+	const { mutateAsync: action, isLoading: isDestroying } = useMutation({ 
+		mutationFn: async (id: number) => await deleteUserUrl(id), 
+		onSuccess
+	});
 
 	return { 
-		userUrls,
-		shortenUrl,
+		userUrls: { data, error, isLoading, refetch },
+		create: { shortenUrl, isShortenLoading },
 		visitShortUrl,
-		deleteUrl
+		destroy: { action, isDestroying }
 	};
 }

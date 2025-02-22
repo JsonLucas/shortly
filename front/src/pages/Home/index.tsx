@@ -1,22 +1,24 @@
 import { Box } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { Ranking } from "../../components/Ranking";
-import { UserUrls } from "../../components/UserUrls";
-import { useToken } from "../../hooks/useToken";
+import { Header } from "../../components/Header";
+import { useUserUrls } from "../../hooks/useUserUrls";
+import { ShortenUrl } from "../../components/Forms/ShortenUrl";
+import { UrlRow } from "../../components/UrlRow";
+import { Loading } from "../../components/Loading";
 
-export function Home(){
-	const { getToken } = useToken();
-	const [showShorter, setShowShorter] = useState<boolean>(false);
-	useEffect(() => {
-		const token = getToken();
-		if(token){
-			setShowShorter(true);
-		}
-	}, []);
+export function Home() {
+	const { userUrls } = useUserUrls();
+
 	return (
 		<Box width='90%' mx='auto'>
-			{showShorter && <UserUrls />}
-			{!showShorter && <Ranking />}
+			<Header />
+
+			<Box mx='auto' maxW='80%' mt='30px'>
+				<ShortenUrl />
+				{userUrls.isLoading && <Loading />}
+				{userUrls.data && <>
+					{userUrls.data.map((item) => <UrlRow key={item.shortUrl} url={item} />)}
+				</>}
+			</Box>
 		</Box>
 	);
 }

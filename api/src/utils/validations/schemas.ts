@@ -15,5 +15,5 @@ export const schemaSignIn = joi.object({
 });
 
 export const schemaUrls = joi.object({
-    url: joi.string().uri().required()
+    fullUrl: joi.string().uri().required()
 });

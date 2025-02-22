@@ -36,13 +36,16 @@ export class LoginRoute implements IRoute {
 
             if(this.crypto.decrypt(data.password) !== password) return res.status(401).send({ message: 'Incorrect credentials.' });
 
-            const sessionData = this.crypto.encrypt(data.id.toString());
-            return res.cookie('session', sessionData, {
-                httpOnly: false,
-                secure: nodeEnv === 'production',
-                maxAge: 60 * 60 * 24 * 7,
-                path: '/'
-            }).send({ message: 'Successfuly logged in.' });
+            const token = this.crypto.encrypt(data.id.toString());
+            // return res.cookie('session', token, {
+            //     httpOnly: false,
+            //     secure: nodeEnv === 'production',
+            //     expires: new Date(Date.now() + 60 * 60 * 24 * 7 * 1000),
+            //     path: '/',
+            //     sameSite: 'lax'
+            // }).send({ message: 'Successfuly logged in.' });
+
+            return res.status(200).send({ token });
         };
     }
 
